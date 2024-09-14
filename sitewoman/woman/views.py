@@ -5,9 +5,10 @@ from django.template.loader import render_to_string
 
 
 def index(request):
-    t = render_to_string('woman/index.html')
-    return HttpResponse(t)
+    return render(request, 'woman/index.html')
 
+def about(request):
+    return render(request, 'woman/about.html')
 
 def categories_by_id(request, cat_id):
     return HttpResponse(f"<h1>Test</h1> cat_id: {cat_id}")
