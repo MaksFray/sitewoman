@@ -3,9 +3,14 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.urls import reverse
 from django.template.loader import render_to_string
 
+MENU = ['About', 'Add article', 'Callback', 'Login']
 
 def index(request):
-    return render(request, 'woman/index.html')
+    data = {
+        'title': 'Home',
+        'menu': MENU,
+    }
+    return render(request, 'woman/index.html', context=data)
 
 def about(request):
     return render(request, 'woman/about.html')
