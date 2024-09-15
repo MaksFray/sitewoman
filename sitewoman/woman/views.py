@@ -3,7 +3,12 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.urls import reverse
 from django.template.loader import render_to_string
 
-MENU = ['About', 'Add article', 'Callback', 'Login']
+MENU = ({'title': 'About', 'url_name': 'about'},
+        {'title': 'Add page', 'url_name': 'add_page'},
+        {'title': 'Contact', 'url_name': 'contact'},
+        {'title': 'Login', 'url_name': 'login'},
+        )
+
 
 def index(request):
     data = {
@@ -12,19 +17,25 @@ def index(request):
     }
     return render(request, 'woman/index.html', context=data)
 
+
 def about(request):
     return render(request, 'woman/about.html')
 
-def categories_by_id(request, cat_id):
-    return HttpResponse(f"<h1>Test</h1> cat_id: {cat_id}")
 
-def categories_by_slug(request, cat_slug):
-    return HttpResponse(f"<h1>Test</h1> cat_slug: {cat_slug}")
-def archive(request, year):
-    if year > 2024:
-        uri = reverse('cats_slug', args=("music", ))
-        return redirect(uri)
-    return HttpResponse(f"Year: {year}")
+def add_page(request):
+    return HttpResponse("Add page")
+
+
+def contact(request):
+    return HttpResponse("Contact")
+
+
+def login(request):
+    return HttpResponse("Login")
+
+
+def show_post(request, post_id):
+    return HttpResponse(f"Show post with id={post_id}")
 
 
 def page_not_found(request, exception):
