@@ -7,3 +7,9 @@ class Woman(models.Model):
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['-time_create']
+        indexes = [
+            models.Index(fields=['-time_create'])
+        ]
