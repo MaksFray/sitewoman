@@ -10,5 +10,5 @@ urlpatterns = [
     path('addpage/', views.add_page, name="add_page"),
     path('contact/', views.contact, name="contact"),
     path('login/', views.login, name="login"),
-    path('post/<int:post_id>/', views.show_post, name="post"),
+    path('post/<slug:post_slug>/', views.show_post, name="post"),
 ]
