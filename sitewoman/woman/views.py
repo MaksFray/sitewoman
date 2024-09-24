@@ -13,9 +13,11 @@ MENU = ({'title': 'About', 'url_name': 'about'},
 
 
 def index(request):
+    posts = Woman.objects.all()
     data = {
         'title': 'Home',
         'menu': MENU,
+        'posts': posts,
     }
     return render(request, 'woman/index.html', context=data)
 
