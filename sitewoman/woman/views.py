@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound
 from django.urls import reverse
 from django.template.loader import render_to_string
+
+from woman.models import Woman
 
 MENU = ({'title': 'About', 'url_name': 'about'},
         {'title': 'Add page', 'url_name': 'add_page'},
@@ -35,7 +37,14 @@ def login(request):
 
 
 def show_post(request, post_id):
-    return HttpResponse(f"Show post with id={post_id}")
+    post:Woman = get_object_or_404(Woman, pk=post_id)
+    data = {
+        'title': post.title,
+        'menu': MENU,
+        'post': post,
+        'cat_selected': 1,
+    }
+    return render(request, 'woman/post.html', data)
 
 
 def page_not_found(request, exception):
