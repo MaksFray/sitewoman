@@ -13,7 +13,7 @@ MENU = ({'title': 'About', 'url_name': 'about'},
 
 
 def index(request):
-    posts = Woman.objects.all()
+    posts = Woman.published.all()
     data = {
         'title': 'Home',
         'menu': MENU,
