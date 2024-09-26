@@ -8,6 +8,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('category', kwargs={'category_slug': self.slug})
+
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_published=Woman.Status.PUBLISHED)
