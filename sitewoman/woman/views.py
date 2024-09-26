@@ -54,7 +54,7 @@ def show_category(request, category_slug):
     posts = Woman.published.filter(category_id=category.pk)
 
     data = {
-        'title': "Show by category",
+        'title': f"Show by category {category.name}",
         'menu': MENU,
         'posts': posts,
         'category_selected': category.pk,
