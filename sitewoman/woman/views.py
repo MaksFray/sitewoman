@@ -18,6 +18,7 @@ def index(request):
         'title': 'Home',
         'menu': MENU,
         'posts': posts,
+        'category_selected': 0,
     }
     return render(request, 'woman/index.html', context=data)
 
@@ -44,7 +45,7 @@ def show_post(request, post_slug):
         'title': post.title,
         'menu': MENU,
         'post': post,
-        'cat_selected': 1,
+        'category_selected': 1,
     }
     return render(request, 'woman/post.html', data)
 
