@@ -32,12 +32,14 @@
 <!-- Sidebar слева -->
 	<td valign="top" class="left-chapters">
 	<ul id="leftchapters">
-		{% if category_selected == 0 or category_selected is None %}
+		{% if category_selected == 0 %}
 			<li class="selected">Все категории</li>
 		{% else %}
 			<li><a href="{% url 'home' %}">Все категории</a></li>
 		{% endif %}
 		{% show_categories category_selected %}
+
+		<li>{% show_all_tags %}</li>
 	</ul>
 </td>
 <!-- Конец Sidebar'а -->
