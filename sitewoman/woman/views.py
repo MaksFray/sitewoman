@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.urls import reverse
 from django.template.loader import render_to_string
 
-from woman.models import Woman, Category
+from woman.models import Woman, Category, Tag
 
 MENU = ({'title': 'About', 'url_name': 'about'},
         {'title': 'Add page', 'url_name': 'add_page'},
@@ -40,7 +40,7 @@ def login(request):
 
 
 def show_post(request, post_slug):
-    post:Woman = get_object_or_404(Woman, slug=post_slug)
+    post: Woman = get_object_or_404(Woman, slug=post_slug)
     data = {
         'title': post.title,
         'menu': MENU,
@@ -48,6 +48,7 @@ def show_post(request, post_slug):
         'category_selected': 1,
     }
     return render(request, 'woman/post.html', data)
+
 
 def show_category(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
@@ -60,6 +61,20 @@ def show_category(request, category_slug):
         'category_selected': category.pk,
     }
     return render(request, 'woman/index.html', context=data)
+
+
+def show_tag_post_list(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    posts = tag.tags.filter(is_published=Woman.Status.PUBLISHED)
+    data = {
+        'title': f"Tag {tag.tag}",
+        'menu': MENU,
+        'posts': posts,
+        'category_selected': None,
+    }
+
+    return render(request, 'woman/index.html', context=data)
+
 
 def page_not_found(request, exception):
     return HttpResponseNotFound("<h1>Page not found</h1>")
