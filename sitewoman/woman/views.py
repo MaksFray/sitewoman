@@ -13,7 +13,7 @@ MENU = ({'title': 'About', 'url_name': 'about'},
 
 
 def index(request):
-    posts = Woman.published.all()
+    posts = Woman.published.all().select_related('category')
     data = {
         'title': 'Home',
         'menu': MENU,
@@ -52,7 +52,7 @@ def show_post(request, post_slug):
 
 def show_category(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
-    posts = Woman.published.filter(category_id=category.pk)
+    posts = Woman.published.filter(category_id=category.pk).select_related('category')
 
     data = {
         'title': f"Show by category {category.name}",
@@ -65,7 +65,7 @@ def show_category(request, category_slug):
 
 def show_tag_post_list(request, tag_slug):
     tag = get_object_or_404(Tag, slug=tag_slug)
-    posts = tag.tags.filter(is_published=Woman.Status.PUBLISHED)
+    posts = tag.tags.filter(is_published=Woman.Status.PUBLISHED).select_related('category')
     data = {
         'title': f"Tag {tag.tag}",
         'menu': MENU,
