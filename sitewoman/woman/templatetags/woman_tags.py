@@ -12,5 +12,5 @@ def show_categories(category_selected=0):
 
 @register.inclusion_tag('woman/list_tags.html')
 def show_all_tags():
-    tags = Tag.objects.annotate(total=Count("posts")).filter(total__gt=0)
+    tags = Tag.objects.annotate(total=Count("tags")).filter(total__gt=0)
     return {'tags': tags}
