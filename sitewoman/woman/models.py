@@ -3,9 +3,12 @@ from django.urls import reverse
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, db_index=True)
+    name = models.CharField(max_length=100, db_index=True, verbose_name="Category")
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
 
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
     def __str__(self):
         return self.name
 
@@ -43,7 +46,7 @@ class Woman(models.Model):
     content = models.TextField(blank=True)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
-    is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)), default=Status.DRAFT)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='posts')
     tags = models.ManyToManyField(Tag, blank=True, related_name='tags')
     husband = models.OneToOneField(Husband, on_delete=models.SET_NULL, null=True, blank=True, related_name='woman')
