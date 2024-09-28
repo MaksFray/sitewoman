@@ -52,6 +52,9 @@ class Woman(models.Model):
     objects = models.Manager()
     published = PublishedManager()
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         ordering = ['-time_create']
         indexes = [
