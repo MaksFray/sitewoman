@@ -22,6 +22,14 @@ class Tag(models.Model):
     def get_absolute_url(self):
         return reverse('tag', kwargs={'tag_slug': self.slug})
 
+class Husband(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField(null=True)
+    merriage_count = models.IntegerField(blank=True, default=0)
+
+    def __str__(self):
+        return self.name
+
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_published=Woman.Status.PUBLISHED)
@@ -38,6 +46,8 @@ class Woman(models.Model):
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='posts')
     tags = models.ManyToManyField(Tag, blank=True, related_name='tags')
+    husband = models.OneToOneField(Husband, on_delete=models.SET_NULL, null=True, blank=True, related_name='woman')
+
 
     objects = models.Manager()
     published = PublishedManager()
