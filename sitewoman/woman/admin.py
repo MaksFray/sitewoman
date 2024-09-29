@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from .models import Woman, Category
 
 
@@ -9,9 +9,18 @@ class WomanAdmin(admin.ModelAdmin):
     ordering = ('time_create', 'title')
     list_editable = ('is_published', 'category')
     list_per_page = 10
+    actions = ['set_published', 'set_unpublished']
     @admin.display(description="Short description", ordering="content")
     def brief_info(self, woman: Woman):
         return f"Description {len(woman.content)} symbols"
+
+    def set_published(self, request, queryset):
+        count = queryset.update(is_published=Woman.Status.PUBLISHED)
+        self.message_user(request, f"{count} posts were updated")
+
+    def set_unpublished(self, request, queryset):
+        count = queryset.update(is_published=Woman.Status.DRAFT)
+        self.message_user(request, f"{count} posts were updated", messages.WARNING)
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
