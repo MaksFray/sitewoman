@@ -4,11 +4,14 @@ from .models import Woman, Category
 
 @admin.register(Woman)
 class WomanAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'time_create', 'is_published', 'category')
-    list_display_links = ('id', 'title')
+    list_display = ('title', 'time_create', 'is_published', 'category', 'brief_info')
+    list_display_links = ('title', )
     ordering = ('time_create', 'title')
     list_editable = ('is_published', 'category')
     list_per_page = 10
+    @admin.display(description="Short description", ordering="content")
+    def brief_info(self, woman: Woman):
+        return f"Description {len(woman.content)} symbols"
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
