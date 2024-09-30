@@ -1,6 +1,20 @@
 from django.contrib import admin, messages
 from .models import Woman, Category
 
+class MarriageFilter(admin.SimpleListFilter):
+    title = "Marriage status"
+    parameter_name = "status"
+
+    def lookups(self, request, model_admin):
+        return [
+            ('married', 'Married'),
+            ('single', 'Single')
+        ]
+    def queryset(self, request, queryset):
+        if self.value() == 'married':
+            return queryset.filter(husband__isnull=False)
+        elif self.value() == 'single':
+            return queryset.filter(husband__isnull=True)
 
 @admin.register(Woman)
 class WomanAdmin(admin.ModelAdmin):
@@ -11,6 +25,7 @@ class WomanAdmin(admin.ModelAdmin):
     list_per_page = 10
     actions = ['set_published', 'set_unpublished']
     search_fields = ['title', 'category__name']
+    list_filter = [MarriageFilter, 'category__name', 'is_published']
     @admin.display(description="Short description", ordering="content")
     def brief_info(self, woman: Woman):
         return f"Description {len(woman.content)} symbols"
