@@ -10,6 +10,7 @@ class WomanAdmin(admin.ModelAdmin):
     list_editable = ('is_published', 'category')
     list_per_page = 10
     actions = ['set_published', 'set_unpublished']
+    search_fields = ['title', 'category__name']
     @admin.display(description="Short description", ordering="content")
     def brief_info(self, woman: Woman):
         return f"Description {len(woman.content)} symbols"
