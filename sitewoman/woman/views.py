@@ -28,7 +28,13 @@ def about(request):
 
 
 def add_page(request):
-    return HttpResponse("Add page")
+    data = {
+        'title': 'Home',
+        'menu': MENU,
+        #'posts': posts,
+        'category_selected': 0,
+    }
+    return render(request, 'woman/add_page.html', context=data)
 
 
 def contact(request):
