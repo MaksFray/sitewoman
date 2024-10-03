@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.urls import reverse
 from django.template.loader import render_to_string
 
+from woman.forms import AddPostForm
 from woman.models import Woman, Category, Tag
 
 MENU = ({'title': 'About', 'url_name': 'about'},
@@ -28,11 +29,13 @@ def about(request):
 
 
 def add_page(request):
+    form = AddPostForm()
     data = {
-        'title': 'Home',
+        'title': 'Add post',
         'menu': MENU,
         #'posts': posts,
         'category_selected': 0,
+        'form': form,
     }
     return render(request, 'woman/add_page.html', context=data)
 

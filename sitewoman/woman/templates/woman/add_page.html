@@ -5,7 +5,7 @@
 <p>Page</p>
 <form action="" method="post">
   {% csrf_token %}
-  <label for="id_1">Title: </label><input type="text" id="id_1" name="filled_text">
+  {{ form.as_p }}
   <p><button type="submit">Send</button> </p>
 </form>
 {% endblock %}
