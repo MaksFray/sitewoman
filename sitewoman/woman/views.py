@@ -32,12 +32,8 @@ def add_page(request):
     if request.method == 'POST':
         form = AddPostForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
-            try:
-                Woman.objects.create(**form.cleaned_data)
-                return redirect('home')
-            except:
-                form.add_error(None, 'Adding post error')
+            form.save()
+            return redirect('home')
     else:
         form = AddPostForm()
     data = {
