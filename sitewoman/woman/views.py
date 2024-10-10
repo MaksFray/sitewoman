@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.urls import reverse
 from django.template.loader import render_to_string
 
-from woman.forms import AddPostForm
+from woman.forms import AddPostForm, UploadFileForm
 from woman.models import Woman, Category, Tag
 
 MENU = ({'title': 'About', 'url_name': 'about'},
@@ -29,8 +29,16 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 def about(request):
     if request.method == 'POST':
-        handle_uploaded_file(request.FILES['file_upload'])
-    return render(request, 'woman/about.html')
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(form.cleaned_data['file'])
+    else:
+        form = UploadFileForm()
+    return render(request, 'woman/about.html', {
+        'title': 'About',
+        'menu': MENU,
+        'form': form,
+    })
 
 
 def add_page(request):
