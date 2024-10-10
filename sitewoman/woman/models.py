@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 
+class UploadFiles(models.Model):
+    file = models.FileField(upload_to='uploads_model')
 
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True, verbose_name="Category")
