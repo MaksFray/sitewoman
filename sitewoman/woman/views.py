@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound
 from django.urls import reverse
 from django.template.loader import render_to_string
+from django.views import View
 
 from woman.forms import AddPostForm, UploadFileForm
 from woman.models import Woman, Category, Tag, UploadFiles
@@ -56,6 +57,27 @@ def add_page(request):
     }
     return render(request, 'woman/add_page.html', context=data)
 
+class AddPage(View):
+    def get(self, request):
+        form = AddPostForm()
+        data = {
+            'title': 'Add post',
+            'menu': MENU,
+            'form': form,
+        }
+        return render(request, 'woman/add_page.html', context=data)
+
+    def post(self, request):
+        form = AddPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        data = {
+            'title': 'Add post',
+            'menu': MENU,
+            'form': form,
+        }
+        return render(request, 'woman/add_page.html', context=data)
 
 def contact(request):
     return HttpResponse("Contact")

@@ -35,6 +35,7 @@ class WomanAdmin(admin.ModelAdmin):
     actions = ['set_published', 'set_unpublished']
     search_fields = ['title', 'category__name']
     list_filter = [MarriageFilter, 'category__name', 'is_published']
+    save_on_top = True
 
     @admin.display(description="Short description", ordering="content")
     def brief_info(self, woman: Woman):
