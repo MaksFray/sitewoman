@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.views import View
+from django.views.generic import TemplateView
 
 from woman.forms import AddPostForm, UploadFileForm
 from woman.models import Woman, Category, Tag, UploadFiles
@@ -23,6 +24,17 @@ def index(request):
         'category_selected': 0,
     }
     return render(request, 'woman/index.html', context=data)
+
+
+class WomanHome(TemplateView):
+    template_name = 'woman/index.html'
+    posts = Woman.published.all().select_related('category')
+    extra_context = {
+        'title': 'Home',
+        'menu': MENU,
+        'posts': posts,
+        'category_selected': 0,
+    }
 
 
 def about(request):
@@ -57,6 +69,7 @@ def add_page(request):
     }
     return render(request, 'woman/add_page.html', context=data)
 
+
 class AddPage(View):
     def get(self, request):
         form = AddPostForm()
@@ -78,6 +91,7 @@ class AddPage(View):
             'form': form,
         }
         return render(request, 'woman/add_page.html', context=data)
+
 
 def contact(request):
     return HttpResponse("Contact")
